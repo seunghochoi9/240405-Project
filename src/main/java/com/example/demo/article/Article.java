@@ -22,7 +22,7 @@ public class Article extends BaseEntity {
     private Long writer;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = true)
     private Board board;
 }

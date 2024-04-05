@@ -23,6 +23,6 @@ public class Board extends BaseEntity {
     private String boardName;
     private String boardType;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY)
     private List<Article> articlesId;
 }

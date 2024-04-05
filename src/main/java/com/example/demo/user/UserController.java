@@ -1,62 +1,87 @@
 package com.example.demo.user;
 
-import java.sql.SQLException;
 import java.util.*;
 
-
 import com.example.demo.common.component.MessengerVo;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @RequiredArgsConstructor
+@RequestMapping(path = "/api/users")
+@Slf4j
 public class UserController {
     private final UserRepository repo;
     private final UserServiceImpl userservice;
-    @SuppressWarnings("unchecked")
-    @GetMapping("/api/all-users")
-    public List<?>findAll()  {
-//        System.out.println("java 실행");
-//        Map<String,Object> map = new HashMap<>();
-//        List<User> list = new ArrayList<>();
-//        list = userservice.findAll();
-//        list.forEach(System.out::println);
-//        System.out.println("리스트 사이즈: "+ list.size());
-//        map.put("result",list);
-//        System.out.println("자바 실행 마무리");
-        List<User> map = new ArrayList<>();
-        List<User> ls = repo.findAll();
-        return repo.findAll();
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")})
+    @PostMapping(path = "")
+    public ResponseEntity<MessengerVo> save(@RequestBody Map<String, UserDto> param) {
+        log.info("입력받은 정보: {}", param);
+        return ResponseEntity.ok(new MessengerVo());
     }
 
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")})
     @PostMapping("/api/users/login")
-    public Map<String, ?> longin(@RequestBody Map<?, ?> paramap) {
+    public ResponseEntity<MessengerVo> longin(@RequestBody Map<?, ?> paramap) {
         Map<String, MessengerVo> map = new HashMap<>();
-        User optUser = repo.findByUsername((String) paramap.get("username")).orElse(null);
-        Long id = optUser.getId();
+        // User optUser = repo.findByUsername((String) paramap.get("username")).orElse(null);
+        //Long id = optUser.getId();
         String password = (String) paramap.get("password");
         String username = (String) paramap.get("username");
 
-
-        System.out.println("ID is " + optUser);
-        return map;
+        return ResponseEntity.ok(new MessengerVo());
     }
-    @PostMapping(path = "/api/users/join")
-    public Map<String, ?> join(@RequestBody Map<?, ?> paramap) {
 
-        String strHeight = String.valueOf(paramap.get("height"));
-        String strWeight = String.valueOf(paramap.get("weight"));
-        User newUser = repo.save(User.builder().
-                username((String) paramap.get("username")).
-                password((String) paramap.get("password")).
-                name((String) paramap.get("name")).
-                phone((String) paramap.get("phone")).
-                job((String) paramap.get("job")).
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")})
+    @GetMapping("/{id}")
+    public ResponseEntity<List<UserDto>> findAll(Pageable pageable) {
 
-                build());
-        System.out.println("DB 에 저장된 user 정보:" + newUser);
-        Map<String, MessengerVo> map = new HashMap<>();
-        return map;
+        return ResponseEntity.ok(new ArrayList<UserDto>());
     }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Customer not found")})
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<UserDto>> findbyid(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+
+        return ResponseEntity.ok(Optional.of(new UserDto()));
+    }
+
+
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+//            @ApiResponse(responseCode = "404", description = "Customer not found")})
+//    @PostMapping(path = "/api/users/join")
+//    public Map<String, ?> join(@RequestBody Map<?, ?> paramap) {
+//        log.info("입력받은 정보: {}", paramap);
+//
+//        User newUser = repo.save(User.builder().
+//                username((String) paramap.get("username")).
+//                password((String) paramap.get("password")).
+//                name((String) paramap.get("name")).
+//                phone((String) paramap.get("phone")).
+//                job((String) paramap.get("job")).
+//
+//                build());
+//        System.out.println("DB 에 저장된 user 정보:" + newUser);
+//        Map<String, MessengerVo> map = new HashMap<>();
+//        return map;
+//    }
 }
