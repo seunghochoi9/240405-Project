@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from './board-init';
-import { findAllBoards } from './board-service';
+import { findAllBoards, findBoardById } from './board-service';
 
 const boardThunks = [findAllBoards]
 
@@ -23,7 +23,8 @@ export const boardSlice = createSlice({
     extraReducers: builder => {
         const {pending, rejected} = status;
         builder
-        .addCase(findAllBoards.fulfilled, (state: any, {payload}: any)=> {state.array})
+        .addCase(findAllBoards.fulfilled, (state: any, {payload}: any)=> {state.array = payload})
+        .addCase(findBoardById.fulfilled, (state: any, {payload}: any)=> {state.array = payload})
     }
 })
 

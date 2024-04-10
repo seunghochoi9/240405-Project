@@ -21,7 +21,7 @@ const LoginPage: NextPage = () => {
 
     const handleSubmit = () => {
         alert('request가 가져가는 이름' + username)
-        const url = `${API.SERVER}/api/login`
+        const url = `${API.SERVER}/login`
         const data = { username, password }
         axios.post(url, data, AxiosConfig())
             .then(res => {

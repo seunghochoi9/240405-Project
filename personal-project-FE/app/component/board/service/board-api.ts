@@ -14,11 +14,12 @@ export const findAllBoardsAPI = async (page:number) => {
 
 export const findBoardByIdAPI = async (id:number) => {
     try {
-        const response = await instance.get('/boards/findById' ,{
+        const response = await instance.get('/boards/detail' ,{
             params: {id, limit: 10}
         })
         return response.data
     } catch (error) {
+        console.log(error)
         return error
     }
 }
