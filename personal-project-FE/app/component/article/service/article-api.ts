@@ -11,3 +11,23 @@ export const findAllArticlesAPI = async (page:number) => {
         return error
     }
 }
+
+export const findArticleByIdAPI = async (id:number) => {
+    try {
+        const response = await instance.get(`/articles/detail` ,{params: {id}})
+        return response.data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export const articleDeleteByIdAPI = async (id:number) => {
+    try {
+        const response = await instance.delete(`/articles/delete` , {params:{id}})
+        return response.data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}

@@ -11,23 +11,24 @@ import BoardColumns from "@/app/component/board/module/boards-columns";
 import { dir } from "console";
 import { propsToClassKey } from "@mui/styles";
 import { getBoardById } from "@/app/component/board/service/board-slice";
+import { IBoard } from "@/app/component/board/model/board";
 // import React from "react";
 
 
-export default function BoardDetailPage(props: any) {
+export default function BoardDetailPage({params}: any) {
     const dispatch = useDispatch()
-    const Board: [] = useSelector(getBoardById)
+    const board:IBoard = useSelector(getBoardById)
 
     useEffect(() => {
-        dispatch(findBoardById(props.params.id))
+        dispatch(findBoardById(params.id))
     }, [])
 
 
     return (<>
-        <h3>{props.params.id}번 게시판 상세</h3>
-        <span>ID</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {props.params.id}</Typography>
-        <span>게시판타입</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {props.params.boardType}</Typography>
-        <span>등록일</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {props.params.id.regDate}</Typography>
-        <span>수정일</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {props.params.id.modDate}</Typography>
+        <h3>{params.id}번 게시판 상세</h3>
+        <span>ID</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {params.id}</Typography>
+        <span>게시판타입</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {params.boardType}</Typography>
+        <span>등록일</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {params.regDate}</Typography>
+        <span>수정일</span><Typography textAlign="center" sx={{ fontSize: "1.5rem" }}>  {params.modDate}</Typography>
     </>)
 }

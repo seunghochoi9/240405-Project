@@ -7,6 +7,8 @@ import com.erichgamma.api.common.component.MessengerVo;
 import com.erichgamma.api.common.component.PageRequestVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public MessengerVo modify(ArticleDto boardDto) {
+    public MessengerVo modify(ArticleDto dto) {
+//        repo.findById(dto.getId()).stream().
         return null;
     }
 
@@ -39,9 +42,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<ArticleDto>  findById(Long id) {
-//        Optional.of(entityToDto(repo.findById(id)));
-        return Optional.empty();
+    public Optional<ArticleDto> findById(Long id) {
+        return repo.findById(id).map(i -> entityToDto(i));
     }
 
     @Override

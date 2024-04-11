@@ -30,29 +30,29 @@ public class UserController {
     @SuppressWarnings("static-access")
     @PostMapping( "/save")
     public ResponseEntity<MessengerVo> save(@RequestBody UserDto dto) {
-        log.info("입력받은 정보 : {}", dto );
+        log.info("save 정보 : {}", dto );
         return ResponseEntity.ok(service.save(dto));
 
     }
     @GetMapping("/list")
     public ResponseEntity<List<UserDto>> findAll(){
-        log.info("입력받은 정보 : {}" );
+        log.info("list 정보 : {}" );
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
     public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) {
-        log.info("입력받은 정보 : {}", id );
+        log.info("detail : {}", id );
         return ResponseEntity.ok(service.findById(id));
     }
     @PutMapping("/modify")
     public ResponseEntity<MessengerVo> modify(@RequestBody UserDto param) {
-        log.info("입력받은 정보 : {}", param );
+        log.info("modify 정보 : {}", param );
         return ResponseEntity.ok(service.modify(param));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id) {
-        log.info("입력받은 정보 : {}", id );
+        log.info("delete 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping("/count")
@@ -62,14 +62,12 @@ public class UserController {
     }
     @PostMapping("/search")
     public ResponseEntity<List<UserDto>> findUsersByName(@RequestBody UserDto param) {
-        //log.info("입력받은 정보 : {}", name );
+        log.info("search 정보 : {}", param );
         return ResponseEntity.ok(service.findUsersByName(param.getName()));
     }
     @PostMapping(path = "/login")
     public ResponseEntity<MessengerVo> login(@RequestBody UserDto param) {
-        log.info("입력받은 정보 : {}", param );
+        log.info("login 정보 : {}", param );
         return ResponseEntity.ok(service.login(param));
     }
-
-
 }

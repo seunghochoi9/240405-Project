@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface BoardService extends CommandService<BoardDto>, QueryService<BoardDto> {
     default Board dtoToEntity(BoardDto dto) {
-        return Board.builder().build();
+        return Board.builder()
+                .boardType(dto.getBoardType())
+                .build();
     }
 
     default BoardDto entityToDto(Board entity){

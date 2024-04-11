@@ -8,5 +8,6 @@ export const initialState:IArticle = {
     writer: '',
     regDate: '',
     modDate: '',
-    array: []
+    array: [],
+    json:{}
 }

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllUsers } from "./user-service";
+import { findAllUsers, findUserById } from "./user-service";
 import { initialState } from "./user-init";
 
-const userThunks = [findAllUsers]
+const userThunks = [findAllUsers, findUserById]
 
 const status = {
     pending: 'pending',
@@ -10,18 +10,14 @@ const status = {
     rejected: 'rejected'
 }
 
-const handleFulfilled = (state:any, {payload}:any)=>{
-    console.log('-------------')
-    state.array= payload
-    console.log(state.array)
-}
+// const handleFulfilled = (state:any, {payload}:any)=>{
+//     console.log('-------------')
+//     state.array= payload
+//     console.log(state.array)
+// }
 
-const handlePending = (state: any) => {
-}
-
-const handleRejected = (state: any) => {
-}
-
+const handlePending = (state: any) => {}
+const handleRejected = (state: any) => {}
 
 export const userSlice = createSlice({
     name: "users",
@@ -30,15 +26,13 @@ export const userSlice = createSlice({
     extraReducers:builder => {
         const {pending, rejected} = status;
         builder
-        .addCase(findAllUsers.fulfilled, handleFulfilled)
+        .addCase(findAllUsers.fulfilled, (state:any, {payload}:any)=>{state.array= payload})
+        .addCase(findUserById.fulfilled, (state:any, {payload}:any)=>{state.json= payload})
     }
 
 })
-export const getAllUsers = (state: any) => {
-    console.log('------------------ Before useSelector ---------------')
-    console.log(JSON.stringify(state.user.array))
-    return state.user.array;
-}
+export const getAllUsers = (state: any) => state.user.array
+export const getUserById = (state: any) => state.user.json
 
 
 export const {} = userSlice.actions

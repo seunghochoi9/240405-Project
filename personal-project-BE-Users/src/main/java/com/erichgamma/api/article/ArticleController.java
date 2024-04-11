@@ -30,6 +30,11 @@ public class ArticleController {
     public ResponseEntity<MessengerVo> save(@RequestBody ArticleDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
+    @PutMapping("/modify")
+    public ResponseEntity<MessengerVo> modify(@RequestBody  ArticleDto articleDto) {
+        return ResponseEntity.ok(service.modify(articleDto));
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id){
         return ResponseEntity.ok(service.deleteById(id));
@@ -39,9 +44,8 @@ public class ArticleController {
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
-    public ResponseEntity <ArticleDto> findById(@RequestParam Long id){
-        ResponseEntity.ok(service.findById(id));
-        return null;
+    public ResponseEntity<Optional<ArticleDto>> findById(@RequestParam Long id){
+        return ResponseEntity.ok(service.findById(id));
     }
     @GetMapping("/count")
     public ResponseEntity<Long> count(){

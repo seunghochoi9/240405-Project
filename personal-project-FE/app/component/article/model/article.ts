@@ -8,5 +8,6 @@ export interface IArticle{
     writer?: ReactNode,
     regDate?: string,
     modDate?: string,
-    array: []
+    array?: IArticle[],
+    json?: IArticle
 }

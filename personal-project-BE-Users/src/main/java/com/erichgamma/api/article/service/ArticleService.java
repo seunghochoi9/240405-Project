@@ -8,7 +8,10 @@ import com.erichgamma.api.common.service.QueryService;
 public interface ArticleService extends CommandService<ArticleDto>, QueryService<ArticleDto> {
 
     default Article dtoToEntity(ArticleDto dto) {
-        return Article.builder().build();
+        return Article.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .build();
     }
 
     default ArticleDto entityToDto(Article entity){

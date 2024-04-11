@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { BoardColumn } from "../model/board-column";
 import { MyTypography } from "../../common/style/cell";
 import { PG } from "../../common/enums/PG";
 import Link from "next/link";
+import { IBoard } from "../model/board";
 
 
 interface CellType{
-    row : BoardColumn
+    row : IBoard
 }
 
 

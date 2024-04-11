@@ -7,6 +7,7 @@ import com.erichgamma.api.user.model.User;
 import com.erichgamma.api.user.model.UserDto;
 import com.erichgamma.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
@@ -37,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public Optional<UserDto> findById(Long id) {
-        // Optional.of(entityToDto(repository.findById(id)));
-        return null;
+        log.info("lmpl 정보 : {}", id );
+        return repository.findById(id).map(i -> entityToDto(i));
     }
 
     @Override
