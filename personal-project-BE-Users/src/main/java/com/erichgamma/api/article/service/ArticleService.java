@@ -9,6 +9,7 @@ public interface ArticleService extends CommandService<ArticleDto>, QueryService
 
     default Article dtoToEntity(ArticleDto dto) {
         return Article.builder()
+                .id(dto.getId())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .build();

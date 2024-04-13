@@ -22,4 +22,5 @@ public class BoardDto {
     private String boardType;
     private String regDate;
     private String modDate;
+    private List<Article> articles;
 }

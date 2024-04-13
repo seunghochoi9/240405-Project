@@ -23,51 +23,47 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/users")
-@Slf4j
 public class UserController {
     private final UserService service;
 
     @SuppressWarnings("static-access")
     @PostMapping( "/save")
     public ResponseEntity<MessengerVo> save(@RequestBody UserDto dto) {
-        log.info("save 정보 : {}", dto );
         return ResponseEntity.ok(service.save(dto));
 
     }
     @GetMapping("/list")
-    public ResponseEntity<List<UserDto>> findAll(){
-        log.info("list 정보 : {}" );
+    public ResponseEntity<List<UserDto>> findAll(PageRequestVo vo){
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
     public ResponseEntity<Optional<UserDto>> findById(@RequestParam Long id) {
-        log.info("detail : {}", id );
         return ResponseEntity.ok(service.findById(id));
     }
     @PutMapping("/modify")
     public ResponseEntity<MessengerVo> modify(@RequestBody UserDto param) {
-        log.info("modify 정보 : {}", param );
         return ResponseEntity.ok(service.modify(param));
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<MessengerVo> deleteById(@RequestParam Long id) {
-        log.info("delete 정보 : {}", id );
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping("/count")
-    public ResponseEntity<Long> count() {
+    public ResponseEntity<MessengerVo> count() {
         return ResponseEntity.ok(service.count());
 
     }
     @PostMapping("/search")
     public ResponseEntity<List<UserDto>> findUsersByName(@RequestBody UserDto param) {
-        log.info("search 정보 : {}", param );
         return ResponseEntity.ok(service.findUsersByName(param.getName()));
     }
     @PostMapping(path = "/login")
     public ResponseEntity<MessengerVo> login(@RequestBody UserDto param) {
-        log.info("login 정보 : {}", param );
         return ResponseEntity.ok(service.login(param));
+    }
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsById(@RequestParam long id) {
+        return ResponseEntity.ok(service.existsById(id));
     }
 }

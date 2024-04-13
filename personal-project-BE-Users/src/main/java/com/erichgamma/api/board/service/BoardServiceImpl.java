@@ -1,5 +1,6 @@
 package com.erichgamma.api.board.service;
 
+import com.erichgamma.api.board.model.Board;
 import com.erichgamma.api.board.model.BoardDto;
 import com.erichgamma.api.board.repository.BoardRepository;
 import com.erichgamma.api.common.component.MessengerVo;
@@ -17,9 +18,13 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository repo;
 
     @Override
-    public MessengerVo save(BoardDto t) {
-        entityToDto(repo.save(dtoToEntity(t)));
-        return new MessengerVo();
+    public MessengerVo save(BoardDto dto) {
+        Board ent = repo.save(dtoToEntity(dto));
+        System.out.println(" ============ BoardServiceImpl save instanceof =========== ");
+        System.out.println((ent instanceof Board) ? "SUCCESS" : "FAILURE");
+        return MessengerVo.builder()
+                .message((ent instanceof Board) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
@@ -29,9 +34,15 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public MessengerVo modify(BoardDto boardDto) {
-        return null;
+    public MessengerVo modify(BoardDto dto) {
+        Board ent = repo.save(dtoToEntity(dto));
+        System.out.println(" ============ BoardServiceImpl modify instanceof =========== ");
+        System.out.println((ent instanceof Board) ? "SUCCESS" : "FAILURE");
+        return MessengerVo.builder()
+                .message((ent instanceof Board) ? "SUCCESS" : "FAILURE")
+                .build();
     }
+
 
     @Override
     public List<BoardDto> findAll() {
@@ -44,8 +55,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Long count() {
-        return repo.count();
+    public MessengerVo count() {
+        return MessengerVo.builder()
+                .message(repo.count()+"")
+                .build();
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.erichgamma.api.common.service.AbstractService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
+@Log4j2
 public class ArticleController {
     private final ArticleService service;
     @PostMapping("/save")
@@ -40,7 +42,7 @@ public class ArticleController {
         return ResponseEntity.ok(service.deleteById(id));
     }
     @GetMapping("/list")
-    public ResponseEntity<List<ArticleDto>> findAll(){
+    public ResponseEntity<List<ArticleDto>> findAll(PageRequestVo vo){
         return ResponseEntity.ok(service.findAll());
     }
     @GetMapping("/detail")
@@ -48,13 +50,13 @@ public class ArticleController {
         return ResponseEntity.ok(service.findById(id));
     }
     @GetMapping("/count")
-    public ResponseEntity<Long> count(){
+    public ResponseEntity<MessengerVo> count(){
         return ResponseEntity.ok(service.count());
     }
-    @GetMapping("/exists/{id}")
-    public ResponseEntity<MessengerVo> existsById(PageRequestVo vo){
-        service.existsById(null);
-        return ResponseEntity.ok(new MessengerVo());
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsById(@RequestParam Long id){
+
+        return ResponseEntity.ok(service.existsById(id));
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -19,21 +20,36 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository repo;
 
     @Override
-    public MessengerVo save(ArticleDto t) {
-        entityToDto(repo.save(dtoToEntity(t)));
-        return new MessengerVo();
+    public MessengerVo save(ArticleDto dto) {
+        Article ent = repo.save(dtoToEntity(dto));
+        System.out.println("============ BoardServiceImpl save instanceof ===========");
+        System.out.println((ent instanceof Article) ? "SUCCESS" : "FAILURE");
+        return MessengerVo.builder()
+                .message((ent instanceof Article) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
     public MessengerVo deleteById(Long id) {
-        repo.deleteById(id);
-        return new MessengerVo();
+        return MessengerVo.builder()
+                .message(
+                        Stream.of(id)
+                                .filter(i -> existsById(i))
+                                .peek(i -> repo.deleteById(i))
+                                .map(i -> "SUCCESS")
+                                .findAny()
+                                .orElseGet(() -> "FAILURE"))
+                .build();
     }
 
     @Override
     public MessengerVo modify(ArticleDto dto) {
-//        repo.findById(dto.getId()).stream().
-        return null;
+        Article ent = repo.save(dtoToEntity(dto));
+        System.out.println("============ BoardServiceImpl modify instanceof ===========");
+        System.out.println((ent instanceof Article) ? "SUCCESS" : "FAILURE");
+        return MessengerVo.builder()
+                .message((ent instanceof Article) ? "SUCCESS" : "FAILURE")
+                .build();
     }
 
     @Override
@@ -47,8 +63,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long count() {
-        return repo.count();
+    public MessengerVo count() {
+        return MessengerVo.builder()
+                .message(repo.count() + "")
+                .build();
     }
 
     @Override
