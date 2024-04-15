@@ -10,5 +10,6 @@ export interface IUser{
     modDate?: string
     json?: IUser
     array?: IUser[]
+    message?: string
 
 }

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { findAllUsersAPI, findUserByIdAPI, userDeleteByIdAPI } from "./user-api";
+import { findAllUsersAPI, findUserByIdAPI, loginAPI, userDeleteByIdAPI } from "./user-api";
+import { IUser } from "../model/user";
 
 
 export const findAllUsers: any = createAsyncThunk(
@@ -30,4 +31,8 @@ export const userDeleteById: any = createAsyncThunk(
         const { message, result }: any = data
         return data
     }
+)
+
+export const login: any = createAsyncThunk('users/login',
+    async (user:IUser) => await loginAPI(user)
 )

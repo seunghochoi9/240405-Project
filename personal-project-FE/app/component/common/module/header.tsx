@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { PG } from '../enums/PG';
 import Link from 'next/link';
 
-const pages = ['홈', '회원가입', '로그인', '게시판목록', '게시글목록', '사용자목록'];
+const pages = ['홈', '게시판목록', '게시글목록', '사용자목록'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -35,8 +35,6 @@ function Header() {
   const handleCloseNavMenu = (event: any) => {
     switch(event.target.innerText){
       case "홈" : router.push("/"); break;
-      case "회원가입" : router.push("/pages/users/join"); break;
-      case "로그인" : router.push("/pages/users/login"); break;
       case "게시판목록" : router.push("/pages/boards/list"); break;
       case "게시글목록" : router.push("/pages/articles/list"); break;
       case "사용자목록" : router.push("/pages/users/list"); break;

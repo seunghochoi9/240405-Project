@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllUsers, findUserById } from "./user-service";
+import { findAllUsers, findUserById, login } from "./user-service";
 import { initialState } from "./user-init";
 
 const userThunks = [findAllUsers, findUserById]
@@ -10,15 +10,6 @@ const status = {
     rejected: 'rejected'
 }
 
-// const handleFulfilled = (state:any, {payload}:any)=>{
-//     console.log('-------------')
-//     state.array= payload
-//     console.log(state.array)
-// }
-
-const handlePending = (state: any) => {}
-const handleRejected = (state: any) => {}
-
 export const userSlice = createSlice({
     name: "users",
     initialState,
@@ -28,11 +19,13 @@ export const userSlice = createSlice({
         builder
         .addCase(findAllUsers.fulfilled, (state:any, {payload}:any)=>{state.array= payload})
         .addCase(findUserById.fulfilled, (state:any, {payload}:any)=>{state.json= payload})
+        .addCase(login.fulfilled, (state:any, {payload}:any)=>{state.message = payload})
     }
 
 })
 export const getAllUsers = (state: any) => state.user.array
 export const getUserById = (state: any) => state.user.json
+export const loginResult = (state: any) => state.user.message
 
 
 export const {} = userSlice.actions

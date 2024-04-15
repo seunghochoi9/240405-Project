@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public MessengerVo modify(UserDto dto) {
         User ent = repository.save(dtoToEntity(dto));
-        System.out.println(" ============ BoardServiceImpl modify instanceof =========== ");
+        log.info(" ============ BoardServiceImpl modify Entity =========== ");
+        log.info(ent);
         System.out.println((ent instanceof User) ? "SUCCESS" : "FAILURE");
         return MessengerVo.builder()
                 .message((ent instanceof User) ? "SUCCESS" : "FAILURE")
@@ -78,8 +79,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        return repository.findByUsername(username);
+        return repository.findUserByUsername(username);
     }
+
+    // SRP에 따라 아이디 존재여부를 프론트에서 먼저 판단하고 넘어옴(시큐리티 SOLID 5대 원칙)
+    // findUserByUsername(dto.getUsername()).get().getPassword().equals(dto.getPassword())?"S":"F"
     @Override
     public MessengerVo login(UserDto dto) {
         return MessengerVo.builder()

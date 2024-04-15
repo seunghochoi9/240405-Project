@@ -10,6 +10,7 @@ import com.erichgamma.api.user.service.UserService;
 import com.erichgamma.api.user.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/users")
+@Log4j2
 public class UserController {
     private final UserService service;
 
@@ -59,8 +61,9 @@ public class UserController {
         return ResponseEntity.ok(service.findUsersByName(param.getName()));
     }
     @PostMapping(path = "/login")
-    public ResponseEntity<MessengerVo> login(@RequestBody UserDto param) {
-        return ResponseEntity.ok(service.login(param));
+    public ResponseEntity<MessengerVo> login(@RequestBody UserDto dto) {
+        log.info(dto);
+        return ResponseEntity.ok(service.login(dto));
     }
     @GetMapping("/exists")
     public ResponseEntity<Boolean> existsById(@RequestParam long id) {
