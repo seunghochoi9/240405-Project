@@ -10,8 +10,5 @@ export const initialState:IUser = {
     phone: '',
     job: '',
     regDate: '',
-    modDate: '',
-    array: [],
-    json: {},
-    message: ''
+    modDate: ''
 }

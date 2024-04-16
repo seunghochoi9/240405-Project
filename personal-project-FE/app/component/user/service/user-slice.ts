@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { findAllUsers, findUserById, login } from "./user-service";
-import { initialState } from "./user-init";
+import { IUser } from "../model/user";
 
 const userThunks = [findAllUsers, findUserById]
 
@@ -10,24 +10,41 @@ const status = {
     rejected: 'rejected'
 }
 
+interface IAuth {
+    message?: string
+    token?: string
+}
+
+interface UserState {
+    array?: Array<IUser>
+    json?: IUser
+    auth?: IAuth
+}
+
+export const initialState: UserState = {
+    array: [],
+    json: {} as IUser,
+    auth: {} as IAuth
+}
+
 export const userSlice = createSlice({
     name: "users",
     initialState,
     reducers: {},
-    extraReducers:builder => {
-        const {pending, rejected} = status;
+    extraReducers: builder => {
+        const { pending, rejected } = status;
         builder
-        .addCase(findAllUsers.fulfilled, (state:any, {payload}:any)=>{state.array= payload})
-        .addCase(findUserById.fulfilled, (state:any, {payload}:any)=>{state.json= payload})
-        .addCase(login.fulfilled, (state:any, {payload}:any)=>{state.message = payload})
+            .addCase(findAllUsers.fulfilled, (state: any, { payload }: any) => { state.array = payload })
+            .addCase(findUserById.fulfilled, (state: any, { payload }: any) => { state.json = payload })
+            .addCase(login.fulfilled, (state: any, { payload }: any) => { state.auth = payload })
     }
 
 })
 export const getAllUsers = (state: any) => state.user.array
 export const getUserById = (state: any) => state.user.json
-export const loginResult = (state: any) => state.user.message
+export const getAuth = (state: any) => state.user.auth
 
 
-export const {} = userSlice.actions
+export const { } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,6 +1,7 @@
 package com.erichgamma.api.user.service;
 
 
+import com.erichgamma.api.common.component.JwtProvider;
 import com.erichgamma.api.common.component.MessengerVo;
 import com.erichgamma.api.user.model.User;
 import com.erichgamma.api.user.model.UserDto;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
+    private final JwtProvider jwt;
 
     @Override
     public MessengerVo save(UserDto dto) {
@@ -86,14 +88,11 @@ public class UserServiceImpl implements UserService {
     // findUserByUsername(dto.getUsername()).get().getPassword().equals(dto.getPassword())?"S":"F"
     @Override
     public MessengerVo login(UserDto dto) {
+        boolean flag = repository.findUserByUsername(
+                dto.getUsername()).get().getPassword().equals(dto.getPassword());
         return MessengerVo.builder()
-                .message(
-                        findUserByUsername(dto.getUsername()).stream()
-                                .filter(i -> i.getPassword().equals(dto.getPassword()))
-                                .map(i -> "SUCCESS")
-                                .findAny()
-                                .orElseGet(() -> "FAILURE")
-                )
+                .message(flag ? "SUCCESS" : "FAILURE")
+                .token(flag ? jwt.createToken(dto) : "None")
                 .build();
     }
 

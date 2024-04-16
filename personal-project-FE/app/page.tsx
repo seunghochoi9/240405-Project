@@ -10,36 +10,40 @@ import AxiosConfig, { instance } from '@/app/component/common/configs/axios-conf
 import { NextPage } from 'next';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "./component/user/service/user-service";
-import { loginResult } from "./component/user/service/user-slice";
+import { getAuth } from "./component/user/service/user-slice";
 import { IUser } from "./component/user/model/user";
+import nookies, { parseCookies, destroyCookie, setCookie } from 'nookies'
 
 export default function Home() {
   const [user, setUser] = useState({} as IUser)
   const router = useRouter();
   const dispatch = useDispatch();
-  const result = useSelector(loginResult);
+  const auth = useSelector(getAuth);
 
   const handleUsername = (e: any) => {
-    setUser({...user, username : e.target.value})
+    setUser({ ...user, username: e.target.value })
   }
 
   const handlePassword = (e: any) => {
-    setUser({...user, password : e.target.value})
+    setUser({ ...user, password: e.target.value })
   }
 
   const handleSubmit = () => {
-    console.log('user...'+JSON.stringify(user))
+    console.log('user...' + JSON.stringify(user))
     dispatch(login(user))
   }
 
   useEffect(() => {
-    if (result === "SUCCESS") {
+    if (auth.message === "SUCCESS") {
+      setCookie({}, 'message', auth.message, { httpOnly: false, path: '/' })
+      setCookie({}, 'token', auth.token, { httpOnly: false, path: '/' })
+      console.log('서버에서 넘어온 메시지 ' + parseCookies().message)
+      console.log('서버에서 넘어온 토큰 ' + parseCookies().token)
       router.push("pages/boards/list")
-      console.log(result);
     } else {
       console.log('LOGIN FAIL')
     }
-  }, [result])
+  }, [auth])
 
 
   return (<div className='text-center'>
